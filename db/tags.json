@@ -1,0 +1,22 @@
+[
+  {
+    "name": "triton",
+    "desc": "a direct part of Triton"
+  },
+  {
+    "name": "manta",
+    "desc": "a direct part of Manta"
+  },
+  {
+    "name": "smartos",
+    "desc": "a direct part of the Triton SmartOS platform"
+  },
+  {
+    "name": "meta",
+    "desc": "meta repo, not directly a part of a specific product"
+  },
+  {
+    "name": "library",
+    "desc": "a Joyent library/tool, possibly used by the products"
+  }
+]
