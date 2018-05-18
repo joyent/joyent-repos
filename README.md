@@ -122,7 +122,9 @@ help do that.
 
 4. Start a Gerrit CR for each (assuming you use [grr](https://github.com/joyent/grr)):
 
-        jr oneach 'grr TRITON-NNN'
+        jr oneach 'grr TRITON-NNN'      # gathers info, creates feature branch
+        jr oneach 'git commit -am "update to latest sdc-scripts"'
+        jr oneach 'grr'                 # creates a CR
 
 5. Get reviews on all those, then update the commit message:
 
