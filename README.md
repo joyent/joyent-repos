@@ -1,216 +1,144 @@
-This repository houses metadata on Joyent public repositories and provides
-a `joyent-repo` tool for listing them and cloning (subsets) of the Joyent repos.
+This repository defines a "repos.json" spec for how the set of repos for a
+Joyent product can be defined, including metadata (labels). It also provides a
+tool (`jr`) for working with these repo manifests, for example to enable easily
+cloning one, a few, or all repos and running commands in those clones.
+(This effort was done as part of [RFD
+70](https://github.com/joyent/rfd/blob/master/rfd/0070/README.md).)
 
 
-# TODO
+## Motivation
 
-- doing appendix B/C idea for `jr ...` which will involve changes for not having
-  repos.json in this repo.
-- impl: see the code:
-    currently doing lib/cli/do_adm/do_add_new_repos.js
-- let's have *registered* use cases so we know not to break them
-
-
-
-
-# Open Qs
+Joyent has a number of products, e.g. Manta, Triton Data Center ("Triton" for
+short), and SmartOS. Each of those products is comprised of a (often large)
+number of git repositories. The release process needs to know which repos
+represent top-level build components, which repos should be branched; a new
+employee likely wants to clone most/all repos for a given product;
+[etc](https://github.com/joyent/rfd/blob/master/rfd/0070/README.md#use-cases-for-metadata).
+Having some mechanism for structured and maintained repo metadata can help these
+and many automation use cases.
 
 
-- is the default clone of hte git@ or https:// git URL?
-    jr clone
-    jr clone --https
+## Overview
 
-- will we want this to be about *eng* repos eventually only? E.g. docs? support?
-  ops? product? sales repos? node-core repos? etc. Perhaps those are all priv?
-  We shall see. Or could state=ignore those and define scope of proj to be for
-  those repos that are for Joyent triton-y products? Missing containerpilot
-  so far? What else?
+Let's add a "repos.json" according to the spec defined below to the "master"
+repo of each product:
 
+- in "triton.git" to define the public Triton repos -> TRITON-310
+- perhaps in "triton-dev.git" (private) to define the private Triton repos, if
+  needed
+- in "manta.git" to define the public Manta repos
+- in "smartos-live.git" to define the SmartOS/platform public repos
 
-
-# dynamic tags
-
-If had a 'sdcnode' tag... how can we help sure that stays up to date?
-Want to have a write-up of active tags for people to know. Its scope/description.
-Perhaps automation asking those Qs when adding new repos?
-Perhaps a script/Makefile tag to check: a cmd marker (`grep NODE_PREBUILT Makefile`)
-to run against each to check.
-
-Another one: the list of triton repos from which there are build products
-("releasebits"?). This should live in triton.git I think.
+Then automation can use those as required. The provided `jr` tool can work
+with the repos.json files in a local clone of these repos.
 
 
-# appendices
+## Spec
 
-## appendix A: old attempt
+**Warning: While the spec is versioned the stability is emphatical
+"experimental" right now. We will freely break compat for a while until we are
+comfortable. Any automation or tool using any of the proposed repos.json files
+above should "register" in the "Registered repos.json users" section below so
+we can attempt to break you less.**
 
-TODO: clear this out and drop it
+TODO
 
-    $ jr list [FILTER]
-    $ jr get NAME
+For now see the [example repos.json file](./examples/sample-repos.json).
 
-Then there is maint in jr itself:
+### Blessed labels
 
-    jr adm new   # administrative: work through new repos
-    jr adm archive REPO  # archive a repo
+- `public: true|false` is used to indicate if the repo is public/private.
+- `state: <state>` is reserved to mean the state of the repo: whether it is
+  in active use. Well known values are "active" and "deprecated".
+- `meta: true` is typical for repos that aren't code for the product but
+  related, e.g. rfd.git and eng.git.
 
-add a new repo
+- `triton: true` is for repos related to the Triton product
+- `releasebit: true` is proposed for marking repos that are the primary
+  for a Triton release component, e.g. the Triton images (like imgapi),
+  agents (like vm-agent), etc.
+- `tritonservice: <service name>` is used to note which Triton repo is the
+  primary repo for a Triton service, e.g. `"tritonservice": "imgapi"` for
+  the sdc-imgapi repo.
 
-    $ jr status    # lists the repos here in this jr tree?
-    $ jr update      # something to update in case there is a new one, warns about deleting
+- `manta: true` is for repos repos to the Manta product
 
 
-## appendix B: attempt two
+### Registered repos.json users
 
-Retry on usage without a .jrrc (i.e. trying simpler)
+- the `jr` tool in this repo
+- ...
+
+
+## `jr`
+
+A tool to work with these repos.json files and the repos mentioned in them.
+
+### Setup
+
+Install it:
+
+    git clone git@github.com:joyent-repos.git
+    cd joyent-repos
+    make
+    export PATH=`pwd`/bin:$PATH
+
+Config it (this could be simplified to an envvar):
+
+    $ cat ~/.jr/config.json
+    {
+        "manifests": [
+            "/Users/trentm/joy/triton/repos.json"
+        ]
+    }
+
+where that path is adjusted to where *you* have a local clone of
+[triton.git](https://github.com/joyent/triton).
+
+Check it by listing repos:
 
     $ jr list
-    ... table of joyent repos ...
 
-    $ jr clone
-    Cloning 232 repos into "$CWD".
-    Are you sure you want to continue? [Y/n]
-    ...
+### How to use `jr` to update the sdc-scripts git submodule in all Triton repos
 
-    $ jr clone triton     # Q: the triton repo? or all the triton-related repos?
-    $ jr clone sdc-imgapi # the repo
-    $ jr clone imgapi     # errors, but shows matching/likely repos, also filters
-    $ jr clone product=triton   # all those belonging to the triton product
-                # Q: what about overlaps? moray, manatee? those stay out?
-    $ jr clone tag=sdcnode project=triton
-                # not sure about tags syntax, this seems fine
+Say you have a ticket (TRITON-NNN) to update all the Triton repos that build
+service images to the latest sdc-scripts. Here is one way to use `jr` to
+help do that.
 
-    $ jr clone -d ~/the-repos product=triton tag=releasebit   # to specify dir
+1. Make a working dir and clone all the repos there:
 
-What about a path to having dir structure?
+        mkdir triton-NNN
+        cd triton-NNN
+        jr clone -l tritonservice
 
-    $ jr clone -l,--layout product    # using the "product" layout, "flat" is default
-    ...
-    library/...
-    manta/...
-    meta/...
-    smartos/...    # or "os"? or "platform"?
-    triton/...
+2. Update the submodule in each clone:
 
-Now we have a dir with clone'd repos. *Perhaps* we add commands, but they
-operate just on the subtree (for now assuming just flat structure):
+        jr oneach 'git submodule update --init'
+        jr oneach 'cd deps/sdc-scripts && git checkout master'
 
-    $ cd ~/the-repos
-    $ jr pull           # pull/update each repo
-    $ jr grep FOO       # git grep FOO in each repo
+3. Inspect the diff in each repo to ensure it is copacetic:
 
+        jr oneach 'git diff'
 
-## appendix C: attempt on 20180511
+4. Start a Gerrit CR for each (assuming you use [grr](https://github.com/joyent/grr)):
 
-(Motivation today is a manta-scripts update for MANTA-3684.)
+        jr oneach 'grr TRITON-NNN'
+
+5. Get reviews on all those, then update the commit message:
+
+        jr oneach 'grr'
+
+    and submit them.
+
+6. Then clean up:
+
+        cd ..
+        rm -rf triton-NNN
 
 
-```
-$ cat ~/.joyent-repo.config.json
-{
-    manifests: [
-        {
-            "project": "triton",
-            "manifest": "~/joy/triton/repos.json"
-        },
-        {
-            "project": "manta",
-            "manifest": "~/joy/manta/repos.json"
-        }
-    ]
-}
-    # Q: where do meta repos like eng.git and rfd.git live?
+## Maintenance of repos.json files
 
+TODO: planned `jr` commands to simplify this; perhaps have details in repos.json
+for what are *candidate* repos classes in GH API, then work through those
+periodically.
 
-$ cat ~/joy/triton/repos.json
-[
-    {
-        "name": "triton",
-        "state": "active"
-    },
-    {
-        "name": "node-triton",
-        "state": "active"
-    },
-    {
-        "name": "sdc-cn-agent",
-        "state": "active",
-        "tags": {
-            "service": true,
-            "agent": true
-        }
-    },
-    {
-        "name": "sdc-imgapi",
-        "state": "active",
-        "tags": {
-            "service": true,
-            "vm": true
-        }
-    },
-    {
-        "name": "triton-cmon",
-        "state": "active",
-        "tags": {
-            "service": true,
-            "vm": true
-        }
-    },
-]
-
-
-$ jr list
-PROJECT  REPO         GIT_URL
-triton   triton       git@github.com:joyent/triton.git
-triton   node-triton  git@github.com:joyent/node-triton.git
-...
-
-$ jr list
-MANIFEST  REPO         GIT_URL
-triton    triton       git@github.com:joyent/triton.git
-triton    node-triton  git@github.com:joyent/node-triton.git
-...
-
-
-$ mkcd triton-123
-$ jr clone triton service vm
-... clone sdc-imgapi and triton-cmon ...
-
-$ jr oneachclone 'giddyup'
-    # Confirmation by default. '-y' to answer yes. '-n, --dry-run'.
-    # operate on any subdir whose name matches a repo?
-    # alias 'jr oneach' or 'jr each' or 'jr run' or 'jr exec'
-    # Fit filters in here?
-$ jr oneachclone 'cd deps/sdc-scripts && giddyup'
-
-
-XXX What's the syntax for filters for commands other that list and clone.
-    Or should list even be context dependent? No that's `jr status`.
-
-
-    jr update [FILTERS]    # Q: context dep? yes
-    jr pull    # alias for ^
-    jr oneachclone CMD [REPOS-OR-FILTERS]
-        # add filters? seems wrong as *args*, so opts. But would be nice
-        # to make `jr update`.
-    jr grep PATTERN [REPOS-OR-FILTERS]    <--- the pattern
-
-Examples to see if can have "REPOS-OR-FILTERS"?
-
-    jr grep 'SERVICE_NAME' sdc-imgapi sdc-papi
-    jr grep 'SERVICE_NAME' sdc-*
-    jr grep 'SERVICE_NAME'    # all here in subdir with .git/config giving a known origin repo
-    jr grep 'SERVICE_NAME' tag=releasebit
-    jr grep 'SERVICE_NAME' tag=releasebit sdc-*    # those *and* together, but without '=' they *or*
-    jr grep 'SERVICE_NAME' tag=sdcscripts
-    jr grep 'SERVICE_NAME' tag=triton tag=releasebit
-
-YAGNI: `jr grep`. Why not just `rg` in the base dir? Useful if have one flat dir
-of all the repos perhaps.
-
-Initial config:
-
-    jr
-
-^^ with no existing config file runs throiugh `jr config setup` which will
-offer to clone triton.git, manta.git, other? with know repos.json files.
