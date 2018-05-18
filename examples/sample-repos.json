@@ -1,0 +1,42 @@
+{
+    "jrVersion": 1,
+    "description": "Triton Data Center public repositories",
+
+    "defaults": {
+        "labels": {
+            "triton": true,
+            "public": true,
+            "state": "active"
+        }
+    },
+
+    "repositories": [
+        {
+            "name": "triton"
+        },
+        {
+            "name": "sdc-imgapi"
+        },
+        {
+            "name": "mahi"
+        },
+        {
+            "name": "rfd",
+            "labels": {
+                "meta": true
+            }
+        },
+        {
+            "name": "node-task-agent",
+            "labels": {
+                "state": "deprecated"
+            }
+        }
+    ],
+
+    "notRepositories": [
+        {
+            "name": "manta"
+        }
+    ]
+}

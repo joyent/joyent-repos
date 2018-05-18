@@ -1,22 +1,22 @@
 {
-  "name": "joyent-repo",
+  "name": "joyent-repos",
   "version": "1.0.0",
-  "description": "metadata, listing, and cloning Joyent (Triton, Manta, and SmartOS) repos",
+  "description": "Listing, cloning, and working with Joyent (Triton, Manta, and SmartOS) repos",
   "author": "Joyent (joyent.com)",
   "license": "MPL-2.0",
   "main": "./lib/index.js",
   "bin": {
-    "joyent-repo": "./bin/joyent-repo"
+    "jr": "./bin/jr"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/joyent/joyent-repo.git"
+    "url": "git+https://github.com/joyent/joyent-repos.git"
   },
-  "homepage": "https://github.com/joyent/joyent-repo",
+  "homepage": "https://github.com/joyent/joyent-repos",
   "keywords": [
     "joyent",
     "git",
-    "repo",
+    "repos",
     "triton",
     "manta",
     "smartos"
@@ -26,6 +26,7 @@
     "bunyan": "^1.8.12",
     "cmdln": "^4.3.0",
     "forkexec": "1.1.0",
+    "jsprim": "2.0.0",
     "minimatch": "3.0.4",
     "read": "^1.0.7",
     "restify-clients": "^1.5.2",
