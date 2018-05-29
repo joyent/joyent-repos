@@ -1,12 +1,16 @@
 {
     "jrVersion": 1,
     "description": "Triton Data Center public repositories",
+    "repoCandidateSearch": {
+        "description": "public github.com/joyent repos directly relevant to development of TritonDC",
+        "type": "public",
+        "includeArchived": false
+    },
 
     "defaults": {
         "labels": {
             "triton": true,
-            "public": true,
-            "state": "active"
+            "public": true
         }
     },
 
@@ -24,12 +28,6 @@
             "name": "rfd",
             "labels": {
                 "meta": true
-            }
-        },
-        {
-            "name": "node-task-agent",
-            "labels": {
-                "state": "deprecated"
             }
         }
     ],

@@ -48,7 +48,6 @@ For now see the [example repos.json file](./examples/sample-repos.json).
 ### Blessed labels
 
 - `public: true|false` is used to indicate if the repo is public/private.
-- `state: <state>` is reserved to mean the state of the repo: whether it is
   in active use. Well known values are "active" and "deprecated".
 - `meta: true` is typical for repos that aren't code for the product but
   related, e.g. rfd.git and eng.git.
