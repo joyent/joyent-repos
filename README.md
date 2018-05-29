@@ -140,7 +140,77 @@ help do that.
 
 ## Maintenance of repos.json files
 
-TODO: planned `jr` commands to simplify this; perhaps have details in repos.json
-for what are *candidate* repos classes in GH API, then work through those
-periodically.
+The "joyent" org has a *lot* of repositories. Trying to keep track of which
+newly added repositories are relevant for a given repo manifest is tedious.
+The `jr update-manifest MANIFEST-PATH` command is intended to help with this.
 
+To support this command a manifest should have a `repoCandidateSearch` object
+something like:
+
+    "repoCandidateSearch": {
+        "description": "public github.com/joyent repos directly relevant to development of TritonDC",
+        "type": "public",
+        "includeArchived": false
+    },
+
+Periodically one should run `jr update-manifest MANIFEST-PATH` and walk through
+the interactive steps to add (and/or explicitly exclude) new candidate repos.
+The command will fetch all repos from GitHub's API matching the
+`repoCandidateSearch` params and then have you edit the list to those that
+should be included in the manifest (along with optionally adding labels) and
+those that should be excluded.
+
+Here is an example run:
+
+```
+$ jr update-manifest ~/joy/triton/repos.json
+Gathering candidate repos from GitHub.
+
+* * *
+The following 2 repo(s) have been archived, or are otherwise no longer
+candidate repos for "/Users/trentm/joy/triton/repos.json":
+    node-tracker
+    sdc-zookeeper
+Remove them from the manifest? [Y/n]
+Updated "/Users/trentm/joy/triton/repos.json".
+
+* * *
+There are 3 candidate new repo(s) to work through:
+    zoneinit
+    keyapi
+    cloud-init
+
+The manifest defines relevant repos as follows:
+    public github.com/joyent repos directly relevant to development of TritonDC
+
+The process is:
+1. edit the list of repos to include in this manifest
+   (possibly including additional labels)
+2. edit the list of repos to exclude as not relevant
+3. any left over repos are deferred until the next
+   `jr update-manifest ...`
+
+Hit <Enter> to continue, <Ctrl+C> to abort.
+
+* * *
+First we will handle which repos to include (and possible labels).
+Hit <Enter> to open your editor, <Ctrl+C> to abort.
+
+Updated "/Users/trentm/joy/triton/repos.json".
+
+* * *
+Next we will handle *exclusions*, by editing the remaining
+list of repos down to those to be excluded from this manifest.
+Hit <Enter> to open your editor, <Ctrl+C> to abort.
+
+No new repos to exclude.
+```
+
+When a manifest knows about all candidate repos, then a run will look like this:
+
+```
+$ jr update-manifest ~/joy/triton/repos.json
+Gathering candidate repos from GitHub.
+No newly archived repos to remove from the manifest.
+No new repos to add to the manifest.
+```

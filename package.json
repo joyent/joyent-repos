@@ -22,6 +22,7 @@
     "smartos"
   ],
   "dependencies": {
+    "@octokit/rest": "15.2.7",
     "assert-plus": "^1.0.0",
     "bunyan": "^1.8.12",
     "cmdln": "^4.3.0",
@@ -31,12 +32,14 @@
     "read": "^1.0.7",
     "restify-clients": "^1.5.2",
     "tabula": "^1.9.0",
-    "vasync": "^2.1.0",
+    "vasync": "2.2.0",
     "verror": "^1.10.0"
   },
   "devDependencies": {
-    "eslint": "2.x",
-    "eslint-plugin-joyent": "1.x",
+    "eslint": "4.13.1",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-joyent": "~2.0.0",
+    "eslint-plugin-prettier": "^2.6.0",
     "prettier": "1.9.1"
   }
 }

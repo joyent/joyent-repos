@@ -1,23 +1,26 @@
 {
-    "plugins": [ "joyent" ],
+    "plugins": [
+        "joyent",
+        "prettier"
+    ],
     "extends": [
         "eslint:recommended",
         "plugin:joyent/style",
-        "plugin:joyent/lint"
+        "plugin:joyent/lint",
+        "plugin:prettier/recommended"
     ],
     "parserOptions": {
         "ecmaVersion": 6,
-        "sourceType": "script",
-        "ecmaFeatures": {
-        }
+        "sourceType": "script"
     },
     "env": {
         "node": true,
         // So `Map` and `Set` are defined:
         "es6": true
     },
-    "// rules": {
-        "consistent-return": "off",
-        "no-loop-func": "off"
+    "rules": {
+        "curly": ["error", "all"],
+        "max-len": "off",
+        "prettier/prettier": "error"
     }
 }

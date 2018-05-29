@@ -4,7 +4,6 @@
 
 ESLINT = ./node_modules/.bin/eslint
 JSFILES := bin/joyent-repo $(shell find lib -name '*.js')
-PRETTIER = ./node_modules/.bin/prettier
 
 
 all $(ESLINT) $(PRETTIER):
@@ -14,22 +13,17 @@ all $(ESLINT) $(PRETTIER):
 clean:
 	rm -rf node_modules
 
-.PHONY: fmt
-fmt: | $(PRETTIER)
-	$(PRETTIER) --write $(JSFILES)
-
 .PHONY: check
-check:: check-version check-eslint check-fmt
+check:: check-version check-eslint
 	@echo "Check ok."
 
 .PHONY: check-eslint
 check-eslint: | $(ESLINT)
 	$(ESLINT) $(JSFILES)
 
-.PHONY: check-fmt
-check-fmt: | $(PRETTIER)
-	@echo "# Checking formatting. Re-run 'make fmt' if this fails."
-	$(PRETTIER) --list-different $(JSFILES)
+.PHONY: fmt
+fmt: | $(ESLINT)
+	$(ESLINT) --fix $(JSFILES)
 
 # Ensure CHANGES.md and package.json have the same version.
 .PHONY: check-version
