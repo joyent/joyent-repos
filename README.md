@@ -53,9 +53,12 @@ For now see the [example repos.json file](./examples/sample-repos.json).
   related, e.g. rfd.git and eng.git.
 
 - `triton: true` is for repos related to the Triton product
-- `releasebit: true` is proposed for marking repos that are the primary
+- `releaserepo: true` is proposed for marking repos that are the primary
   for a Triton release component, e.g. the Triton images (like imgapi),
-  agents (like vm-agent), etc.
+  agents (like vm-agent), etc. Currently the authority for this is
+  [MG's targets.json.in](https://github.com/joyent/mountain-gorilla/blob/master/targets.json.in).
+  This command lists the relevant repo names:
+  `JOYENT_BUILD=true bash targets.json.in | json -M -a value.repos | json -ga url | sort | uniq | cut -d/ -f2 | cut -d. -f1`
 - `tritonservice: <service name>` is used to note which Triton repo is the
   primary repo for a Triton service, e.g. `"tritonservice": "imgapi"` for
   the sdc-imgapi repo.
