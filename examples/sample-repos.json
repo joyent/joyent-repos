@@ -7,6 +7,19 @@
         "includeArchived": false
     },
 
+    "blessedLabels": [
+        {
+            "name": "meta",
+            "type": "boolean",
+            "description": "a repo that isn't code, but is relevant for product development"
+        },
+        {
+            "name": "tritonservice",
+            "type": "string",
+            "description": "the top-level repo for a Triton core service, e.g. tritonservice=imgapi"
+        }
+    ],
+
     "defaults": {
         "labels": {
             "triton": true,

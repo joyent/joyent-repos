@@ -33,13 +33,21 @@ Then automation can use those as required. The provided `jr` tool can work
 with the repos.json files in a local clone of these repos.
 
 
-## Spec
+### Registered repos.json users
 
 **Warning: While the spec is versioned the stability is emphatical
 "experimental" right now. We will freely break compat for a while until we are
 comfortable. Any automation or tool using any of the proposed repos.json files
 above should "register" in the "Registered repos.json users" section below so
 we can attempt to break you less.**
+
+Registered users:
+
+- the `jr` tool in this repo
+- ...
+
+
+## Spec
 
 TODO
 
@@ -49,10 +57,12 @@ For now see the [example repos.json file](./examples/sample-repos.json).
 
 - `public: true|false` is used to indicate if the repo is public/private.
   in active use. Well known values are "active" and "deprecated".
+
 - `meta: true` is typical for repos that aren't code for the product but
   related, e.g. rfd.git and eng.git.
-
 - `triton: true` is for repos related to the Triton product
+- `manta: true` is for repos repos to the Manta product
+
 - `releaserepo: true` is proposed for marking repos that are the primary
   for a Triton release component, e.g. the Triton images (like imgapi),
   agents (like vm-agent), etc. Currently the authority for this is
@@ -63,13 +73,6 @@ For now see the [example repos.json file](./examples/sample-repos.json).
   primary repo for a Triton service, e.g. `"tritonservice": "imgapi"` for
   the sdc-imgapi repo.
 
-- `manta: true` is for repos repos to the Manta product
-
-
-### Registered repos.json users
-
-- the `jr` tool in this repo
-- ...
 
 
 ## `jr`
