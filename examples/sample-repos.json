@@ -32,7 +32,7 @@
         }
     ],
 
-    "notRepositories": [
+    "excludedRepositories": [
         {
             "name": "manta"
         }
