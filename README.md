@@ -88,14 +88,9 @@ Install it:
     make
     export PATH=`pwd`/bin:$PATH
 
-Config it (this could be simplified to an envvar):
+Config it:
 
-    $ cat ~/.jr/config.json
-    {
-        "manifests": [
-            "/Users/trentm/joy/triton/repos.json"
-        ]
-    }
+    $ export JR_MANIFESTS=/Users/trentm/joy/triton/repos.json
 
 where that path is adjusted to where *you* have a local clone of
 [triton.git](https://github.com/joyent/triton).
