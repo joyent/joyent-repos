@@ -22,7 +22,7 @@
     "smartos"
   ],
   "dependencies": {
-    "@octokit/rest": "15.2.7",
+    "@octokit/rest": "15.8.1",
     "assert-plus": "^1.0.0",
     "bunyan": "^1.8.12",
     "cmdln": "^4.3.0",
