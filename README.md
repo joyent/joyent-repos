@@ -1,7 +1,7 @@
 This repository defines a "repos.json" spec for how the set of repos for a
 Joyent product can be defined, including metadata (labels). It also provides a
-tool (`jr`) for working with these repo manifests, for example to enable easily
-cloning one, a few, or all repos and running commands in those clones.
+tool (`jr`) for working with these repo manifests -- for example to enable
+easily cloning one, a few, or all repos and running commands in those clones.
 (This effort was done as part of [RFD
 70](https://github.com/joyent/rfd/blob/master/rfd/0070/README.md).)
 
@@ -35,7 +35,7 @@ with the repos.json files in a local clone of these repos.
 
 ### Registered repos.json users
 
-**Warning: While the spec is versioned the stability is emphatical
+**Warning: While the spec is versioned, the spec's stability is emphatical
 "experimental" right now. We will freely break compat for a while until we are
 comfortable. Any automation or tool using any of the proposed repos.json files
 above should "register" in the "Registered repos.json users" section below so
@@ -47,11 +47,92 @@ Registered users:
 - ...
 
 
-## Spec
+## Repo Manifest Spec
 
-TODO
+A repo manifest is a JSON file that enumerates a set of repos, some metadata
+on those repos (currently just labels), and some metadata to describe the set
+and to aid in maintaining the file. Typically the file is called "repos.json".
+Typically the "set" represents the repos relevant for a Joyent product.
+Currently the manifest enumerates repo *names*, assuming they are all on
+GitHub and under the github.com/joyent organization.
 
-For now see the [example repos.json file](./examples/sample-repos.json).
+See the [example repos.json file](./examples/sample-repos.json).
+
+A repo manifest file has the following fields:
+
+- `jrVersion`: Currently `1`. This may be used in the future for versioning
+  the spec.
+
+- `description`: A short description for the set of repos.
+
+- `repositories`: This is the array of included repositories. E.g.:
+
+    ```
+    "repositories": [
+        {
+            "name": "mahi"
+        },
+        {
+            "name": "rfd",
+            "labels": {
+                "meta": true
+            }
+        }
+    ]
+    ```
+
+- `excludedRepositories`: This is an array of candidate repos (see
+  `repoCandidateSearch`) that are explicitly *not* considered part of this set.
+  These are listed so that repeated runs of `jr update-manifest` need not
+  revisit all repos everytime.
+
+- `repoCandidateSearch`: An object providing data used by `jr update-manifest
+  ...` to help maintain the manifest. It includes the following fields:
+
+    - `description`: A sentence describing what qualifies a repo to belong in
+      this manifest. This sentence is included shown to the user of
+      `jr update-manifest`.
+    - `type`: The "type" value to the [GitHub v3 API to "List organization
+      repositories"](https://developer.github.com/v3/repos/#list-organization-repositories),
+      e.g. "public".
+    - `includeArchived` (boolean): Set this to true to have `jr update-manifest`
+      consider repos that have been archived on GitHub. Defaults to false.
+
+- `blessedLabels`: An array of objects describing "blessed" labels. These are
+  show in the `jr update-manifest` UI to assist the maintainer in selecting
+  useful labels. E.g.:
+
+    ```
+    "blessedLabels": [
+        {
+            "name": "meta",
+            "type": "boolean",
+            "description": "a repo that isn't code, but ..."
+        },
+        {
+            "name": "tritonservice",
+            "type": "string",
+            "description": "the top-level repo for a ..."
+        }
+    ],
+    ```
+
+  See also [Blessed
+  labels](https://github.com/joyent/joyent-repos#blessed-labels) below for some
+  suggested label usage across all repo manifests.
+
+- `defaults`: An object with default metadata for every included repo. The
+  only metadata, and hence only supported defaults are `labels`, e.g.:
+
+    ```
+    "defaults": {
+        "labels": {
+            "triton": true,
+            "public": true
+        }
+    },
+    ```
+
 
 ### Blessed labels
 
@@ -72,7 +153,6 @@ For now see the [example repos.json file](./examples/sample-repos.json).
 - `tritonservice: <service name>` is used to note which Triton repo is the
   primary repo for a Triton service, e.g. `"tritonservice": "imgapi"` for
   the sdc-imgapi repo.
-
 
 
 ## `jr`
@@ -97,6 +177,7 @@ where that path is adjusted to where *you* have a local clone of
 
 Check it by listing repos:
 
+    $ jr --version
     $ jr list
 
 ### How to use `jr` to update the sdc-scripts git submodule in all Triton repos
@@ -138,20 +219,13 @@ help do that.
         rm -rf triton-NNN
 
 
-## Maintenance of repos.json files
+## Maintenance of repo manifest files
 
 The "joyent" org has a *lot* of repositories. Trying to keep track of which
 newly added repositories are relevant for a given repo manifest is tedious.
 The `jr update-manifest MANIFEST-PATH` command is intended to help with this.
-
-To support this command a manifest should have a `repoCandidateSearch` object
-something like:
-
-    "repoCandidateSearch": {
-        "description": "public github.com/joyent repos directly relevant to development of TritonDC",
-        "type": "public",
-        "includeArchived": false
-    },
+To support this command a manifest must have a `repoCandidateSearch` object
+(see the spec above).
 
 Periodically one should run `jr update-manifest MANIFEST-PATH` and walk through
 the interactive steps to add (and/or explicitly exclude) new candidate repos.
@@ -190,12 +264,7 @@ The process is:
 3. any left over repos are deferred until the next
    `jr update-manifest ...`
 
-Hit <Enter> to continue, <Ctrl+C> to abort.
-
-* * *
-First we will handle which repos to include (and possible labels).
 Hit <Enter> to open your editor, <Ctrl+C> to abort.
-
 Updated "/Users/trentm/joy/triton/repos.json".
 
 * * *
