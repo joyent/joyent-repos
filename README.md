@@ -144,7 +144,7 @@ A repo manifest file has the following fields:
 - `triton: true` is for repos related to the Triton product
 - `manta: true` is for repos repos to the Manta product
 
-- `releaserepo: true` is proposed for marking repos that are the primary
+- `release: true` is proposed for marking repos that are the primary
   for a Triton release component, e.g. the Triton images (like imgapi),
   agents (like vm-agent), etc. Currently the authority for this is
   [MG's targets.json.in](https://github.com/joyent/mountain-gorilla/blob/master/targets.json.in).
