@@ -226,6 +226,9 @@ help do that.
         cd ..
         rm -rf triton-NNN
 
+Here is an example run for TRITON-380:
+<https://gist.github.com/trentm/2abe2335f9997c511b683e67bd622d42>.
+
 
 ## Maintenance of repo manifest files
 
