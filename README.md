@@ -190,12 +190,19 @@ help do that.
 
         mkdir triton-NNN
         cd triton-NNN
-        jr clone -l tritonservice
+        jr clone -y -l triton,vm
 
 2. Update the submodule in each clone:
 
-        jr oneach 'git submodule update --init'
+        jr oneach 'git submodule update --init -- deps/sdc-scripts'
         jr oneach 'cd deps/sdc-scripts && git checkout master'
+
+    Unfortunately triton-cmon and triton-cns do it differently: using an npm
+    dep for sdc-scripts, rather than git submodule.
+
+        (cd sdc-papi/deps/sdc-scripts/ && git log -1 --pretty=format:%H)
+        vi triton-cns/package.json
+        vi triton-cmon/package.json
 
 3. Inspect the diff in each repo to ensure it is copacetic:
 
@@ -206,12 +213,13 @@ help do that.
         jr oneach 'grr TRITON-NNN'      # gathers info, creates feature branch
         jr oneach 'git commit -am "update to latest sdc-scripts"'
         jr oneach 'grr'                 # creates a CR
+        open 'https://cr.joyent.us/#/q/is:open+TRITON-NNN'
 
 5. Get reviews on all those, then update the commit message:
 
         jr oneach 'grr'
 
-    and submit them.
+    and submit them (TODO: finish `grr -S` for submitting).
 
 6. Then clean up:
 
