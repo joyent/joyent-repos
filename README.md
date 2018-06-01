@@ -81,7 +81,7 @@ A repo manifest file has the following fields:
     ]
     ```
 
-- `excludedRepositories`: This is an array of candidate repos (see
+- `excludedRepositories`: This is an array of candidate repos names (see
   `repoCandidateSearch`) that are explicitly *not* considered part of this set.
   These are listed so that repeated runs of `jr update-manifest` need not
   revisit all repos everytime.

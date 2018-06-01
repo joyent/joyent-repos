@@ -46,8 +46,6 @@
     ],
 
     "excludedRepositories": [
-        {
-            "name": "manta"
-        }
+        "manta"
     ]
 }
