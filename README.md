@@ -150,6 +150,12 @@ A repo manifest file has the following fields:
   [MG's targets.json.in](https://github.com/joyent/mountain-gorilla/blob/master/targets.json.in).
   This command lists the relevant repo names:
   `JOYENT_BUILD=true bash targets.json.in | json -M -a value.repos | json -ga url | sort | uniq | cut -d/ -f2 | cut -d. -f1`
+- `mg: <MG target name>` While we are still using
+  [mountain-gorilla](https://github.com/joyent/mountain-gorilla), it is useful
+  to have the mapping of top-level repo to MG target, given that the target name
+  is not in general derivable from the repo name, or the image name.
+  WARNING: The "sdc-headnode" repo is relevant for *multiple* MG targets. I've
+  chosen to use the "headnode-joyent" target here.
 - `image: <image name>` is used to not the name of the core image created by
   this repo, e.g. `"image": "manta-authcache"` for the mahi repo.
 - `tritonservice: <service name>` is used to note which repo is the
