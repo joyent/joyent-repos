@@ -150,9 +150,14 @@ A repo manifest file has the following fields:
   [MG's targets.json.in](https://github.com/joyent/mountain-gorilla/blob/master/targets.json.in).
   This command lists the relevant repo names:
   `JOYENT_BUILD=true bash targets.json.in | json -M -a value.repos | json -ga url | sort | uniq | cut -d/ -f2 | cut -d. -f1`
-- `tritonservice: <service name>` is used to note which Triton repo is the
+- `image: <image name>` is used to not the name of the core image created by
+  this repo, e.g. `"image": "manta-authcache"` for the mahi repo.
+- `tritonservice: <service name>` is used to note which repo is the
   primary repo for a Triton service, e.g. `"tritonservice": "imgapi"` for
   the sdc-imgapi repo.
+- `mantaservice: <service name>` is used to note which repo is the
+  primary repo for a Manta service, e.g. `"mantaservice": "webapi"` for
+  the manta-muskie repo.
 
 
 ## `jr`
