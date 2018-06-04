@@ -172,25 +172,26 @@ A tool to work with these repos.json files and the repos mentioned in them.
 
 ### Setup
 
-Install it:
+1. Install it:
 
-    git clone git@github.com:joyent-repos.git
-    cd joyent-repos
-    make
-    export PATH=`pwd`/bin:$PATH
+        git clone git@github.com:joyent/joyent-repos.git
+        cd joyent-repos
+        make
+        export PATH=`pwd`/bin:$PATH
 
-Config it:
+2. Update to the latest triton.git and triton-dev.git.
 
-    $ export JR_MANIFESTS=~/joy/triton/repos.json
-    $ export JR_MANIFESTS=~/joy/triton/repos.json,~/joy/triton-dev/repos.json,~/joy/triton-dev/repos-manta.json,~/joy/triton-dev/repos-smartos.json
+3. Config it:
 
-where that path is adjusted to where *you* have local clones of
-[triton.git](https://github.com/joyent/triton)
-and [triton-dev.git](https://github.com/joyent/triton-dev). (For now I [Trent]
-am maintaining Manta and SmartOS repo manifests in triton-dev.git. Eventually,
-IMO, they should live in manta.git and smartos-live.git.)
+        $ export JR_MANIFESTS=~/joy/triton/repos.json,~/joy/triton-dev/repos.json,~/joy/triton-dev/repos-manta.json,~/joy/triton-dev/repos-smartos.json
 
-Check it by listing repos:
+    where that path is adjusted to where *you* have local clones of
+    [triton.git](https://github.com/joyent/triton)
+    and [triton-dev.git](https://github.com/joyent/triton-dev). (For now I [Trent]
+    am maintaining Manta and SmartOS repo manifests in triton-dev.git. Eventually,
+    IMO, they should live in manta.git and smartos-live.git.)
+
+4. Check it by listing repos:
 
     $ jr --version
     $ jr list
