@@ -228,8 +228,11 @@ help do that.
 
         jr oneach 'grr TRITON-NNN'      # gathers info, creates feature branch
         jr oneach 'git commit -am "update to latest sdc-scripts"'
-        jr oneach 'grr'                 # creates a CR
+        jr oneach -c1 'grr'             # creates a CR
         open 'https://cr.joyent.us/#/q/is:open+TRITON-NNN'
+
+    The `-c1` is for a concurrency of just one when pushing things to cr.joyent.us,
+    otherwise I've found it fails a lot.
 
 5. Get reviews on all those, then update the commit message:
 
