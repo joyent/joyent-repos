@@ -3,7 +3,7 @@
 #
 
 ESLINT = ./node_modules/.bin/eslint
-JSFILES := bin/joyent-repo $(shell find lib -name '*.js')
+JSFILES := bin/joyent-repos $(shell find lib -name '*.js')
 
 
 all $(ESLINT) $(PRETTIER):

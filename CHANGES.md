@@ -1,4 +1,4 @@
-# joyent-repo Changelog
+# joyent-repos Changelog
 
 ## not yet released
 
