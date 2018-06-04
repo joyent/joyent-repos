@@ -193,8 +193,8 @@ A tool to work with these repos.json files and the repos mentioned in them.
 
 4. Check it by listing repos:
 
-    $ jr --version
-    $ jr list
+        $ jr --version
+        $ jr list
 
 ### How to use `jr` to update the sdc-scripts git submodule in all Triton repos
 
