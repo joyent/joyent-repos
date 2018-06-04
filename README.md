@@ -181,10 +181,14 @@ Install it:
 
 Config it:
 
-    $ export JR_MANIFESTS=/Users/trentm/joy/triton/repos.json
+    $ export JR_MANIFESTS=~/joy/triton/repos.json
+    $ export JR_MANIFESTS=~/joy/triton/repos.json,~/joy/triton-dev/repos.json,~/joy/triton-dev/repos-manta.json,~/joy/triton-dev/repos-smartos.json
 
-where that path is adjusted to where *you* have a local clone of
-[triton.git](https://github.com/joyent/triton).
+where that path is adjusted to where *you* have local clones of
+[triton.git](https://github.com/joyent/triton)
+and [triton-dev.git](https://github.com/joyent/triton-dev). (For now I [Trent]
+am maintaining Manta and SmartOS repo manifests in triton-dev.git. Eventually,
+IMO, they should live in manta.git and smartos-live.git.)
 
 Check it by listing repos:
 
