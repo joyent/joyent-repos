@@ -21,6 +21,11 @@ check:: check-version check-eslint
 check-eslint: | $(ESLINT)
 	$(ESLINT) $(JSFILES)
 
+# Just lint check (no style)
+.PHONY: lint
+lint: | $(ESLINT)
+	$(ESLINT) --rule 'prettier/prettier: off' $(JSFILES)
+
 .PHONY: fmt
 fmt: | $(ESLINT)
 	$(ESLINT) --fix $(JSFILES)
