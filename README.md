@@ -44,6 +44,9 @@ we can attempt to break you less.**
 Registered users:
 
 - the `jr` tool in this repo
+- as of TRITON-539,
+  [sdcnode](https://github.com/joyent/sdcnode#build-configurations) documents
+  how to determine sdcnode usage using `jr ...` commands
 - ...
 
 
