@@ -4,6 +4,55 @@
 
 (nothing yet)
 
+## 2.0.0
+
+- [BREAKING CHANGE] The `-c` short option from `jr pull` has been removed.
+  The long opt `--concurrency NUM` remains. The `-c NUM` option on `jr oneach`
+  has been changed to be used for `-c COND-CMD, --condition COND-CMD`.
+- Add `-c COND-CMD, --condition COND-CMD` option to `jr oneach CMD` to select a
+  subset of repo clones in which to run `CMD`
+
+  So, for example one can run `-c 'test -f package.json'` to only run my CMD in
+  those repos that have a package.json file:
+
+        $ jr oneach -o table -c 'test -f package.json' 'json -f package.json name version -a'
+        moray                            moray-server 2.3.0
+        mahi                             mahi 2.0.2
+        aperture-config                  aperture-config 1.0.0
+        binder                           binder 1.3.1
+        mountain-gorilla                 mountain-gorilla 2.0.1
+        keyapi                           keyapi 1.1.0
+        manatee                          manatee 2.1.0
+
+  or our current top-level deps on lru-cache:
+
+        $ jr oneach -o table \
+            -c '[[ -f package.json && -n $(json -f package.json dependencies.lru-cache) ]]' \
+            'json -f package.json dependencies.lru-cache'
+        mahi                  4.1.3
+        binder                4.1.3
+        node-libmanta         2.3.1
+        moray                 2.5.0
+        sdc-amonadm           2.3.0
+        node-mahi             4.1.3
+        node-ufds             ^2.5.0
+        node-smartdc          2.2.0
+        sdc-firewaller-agent  4.1.3
+        sdc-docker            2.5.0
+        triton-cns            4.1.3
+        manta-minnow          4.1.3
+        sdc-nfs               2.5.0
+        sdc-portolan          4.1.3
+        sdc-portolan-moray    2.5.0
+        piranha               ^2.5.2
+        electric-moray        4.1.3
+        sdc-fwapi             4.1.3
+        sdc-sdc               4.1.3
+        sdc-manta             4.1.3
+        manta-muskie          4.1.3
+        manta-wrasse          4.1.3
+
+
 ## 1.1.0
 
 - Bash completion for "REPO" arguments, e.g. `jr clone sdc<TAB>`.
