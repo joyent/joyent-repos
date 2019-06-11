@@ -4,6 +4,15 @@
 
 (nothing yet)
 
+## 2.1.0
+
+- Respect `$JR_REPO_PATH_SUFFIX` to allow users to set a common suffix for all
+  local repositories, e.g.:
+
+        $ export JR_REPO_PATH_SUFFIX='.git'
+        $ jr clone -y binder
+        cloned "binder" to "/space/binder.git" (2s)
+
 ## 2.0.0
 
 - [BREAKING CHANGE] The `-c` short option from `jr pull` has been removed.
