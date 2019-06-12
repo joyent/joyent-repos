@@ -194,6 +194,11 @@ A tool to work with these repos.json files and the repos mentioned in them.
     [Trent] am maintaining Manta and SmartOS repo manifests in triton-dev.git.
     Eventually, IMO, they should live in manta.git and smartos-live.git.)
 
+    If you want repositories to be checked out to directories with a given
+    suffix (e.g. <repo_name>.git) then set:
+
+        $ export JR_REPO_PATH_SUFFIX='.git'
+
 4. Check it by listing repos:
 
         $ jr --version
