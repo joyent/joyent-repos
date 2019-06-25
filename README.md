@@ -1,4 +1,4 @@
-This repository defines a "repos.json" spec for how the set of repos for a
+This repository defines a "jr-manifest.json" spec for how the set of repos for a
 Joyent product can be defined, including metadata (labels). It also provides a
 tool (`jr`) for working with these repo manifests -- for example to enable
 easily cloning one, a few, or all repos and running commands in those clones.
@@ -20,8 +20,8 @@ and many automation use cases.
 
 ## Overview
 
-Let's add a "repos.json" according to the spec defined below to the "master"
-repo of each product:
+Let's add a "jr-manifest.json" according to the spec defined below to the
+"master" repo of each product:
 
 - in "triton.git" to define the public Triton repos -> TRITON-310
 - perhaps in "triton-dev.git" (private) to define the private Triton repos, if
@@ -30,7 +30,7 @@ repo of each product:
 - in "smartos-live.git" to define the SmartOS/platform public repos
 
 Then automation can use those as required. The provided `jr` tool can work
-with the repos.json files in a local clone of these repos.
+with the `jr-manifest.json` files in local clones of these repos.
 
 
 ### Registered repos.json users
@@ -47,6 +47,9 @@ Registered users:
 - as of TRITON-539,
   [sdcnode](https://github.com/joyent/sdcnode#build-configurations) documents
   how to determine sdcnode usage using `jr ...` commands
+- as of TOOLS-2143, the [sdcrelease](https://mo.joyent.com/engdoc/tree/master/sdcrelease)
+  process uses `jr` when running scripts in the [triton.git](https://github.com/joyent/triton)
+  `./tools/releng` directory.
 - ...
 
 
@@ -54,12 +57,13 @@ Registered users:
 
 A repo manifest is a JSON file that enumerates a set of repos, some metadata
 on those repos (currently just labels), and some metadata to describe the set
-and to aid in maintaining the file. Typically the file is called "repos.json".
+and to aid in maintaining the file. The file is typically called
+"jr-manifest.json".
 Typically the "set" represents the repos relevant for a Joyent product.
 Currently the manifest enumerates repo *names*, assuming they are all on
 GitHub and under the github.com/joyent organization.
 
-See the [example repos.json file](./examples/sample-repos.json).
+See the [example jr-manifest.json file](./examples/sample-jr-manifest.json).
 
 A repo manifest file has the following fields:
 
@@ -153,11 +157,10 @@ A repo manifest file has the following fields:
   [MG's targets.json.in](https://github.com/joyent/mountain-gorilla/blob/master/targets.json.in).
   This command lists the relevant repo names:
   `JOYENT_BUILD=true bash targets.json.in | json -M -a value.repos | json -ga url | sort | uniq | cut -d/ -f2 | cut -d. -f1`
-- `mg: <MG target name>` While we are still using
-  [mountain-gorilla](https://github.com/joyent/mountain-gorilla), it is useful
-  to have the mapping of top-level repo to MG target, given that the target name
-  is not in general derivable from the repo name, or the image name.
-  WARNING: The "sdc-headnode" repo is relevant for *multiple* MG targets. I've
+- `mg: <Jenkins job name>` Originally called 'mg' because it referred to
+  [mountain-gorilla](https://github.com/joyent/mountain-gorilla) targets,
+  this maps the top-level repo to a Jenkins Job name.
+  WARNING: The "sdc-headnode" repo is relevant for *multiple* Jenkins jobs. We've
   chosen to use the "headnode-joyent" target here.
 - `image: <image name>` is used to not the name of the core image created by
   this repo, e.g. `"image": "manta-authcache"` for the mahi repo.
@@ -171,7 +174,7 @@ A repo manifest file has the following fields:
 
 ## `jr`
 
-A tool to work with these repos.json files and the repos mentioned in them.
+A tool to work with these jr-manifest.json files and the repos mentioned in them.
 
 ### Setup
 
@@ -186,13 +189,15 @@ A tool to work with these repos.json files and the repos mentioned in them.
 
 3. Config it:
 
-        $ export JR_MANIFESTS=`pwd`/triton/repos.json,`pwd`/triton-dev/repos.json,`pwd`/triton-dev/repos-manta.json,`pwd`/triton-dev/repos-smartos.json
+        $ export JR_MANIFESTS=`pwd`/triton/tools/jr-manifest.json,
+        `pwd`/manta/tools/jr-manifest.json,`pwd`/smartos-live/tools/jr-manifest.json,
+        `pwd`/triton-dev/jr-manifest.json
 
     where those paths are adjusted to where *you* have local clones of
-    [triton.git](https://github.com/joyent/triton)
-    and [triton-dev.git](https://github.com/joyent/triton-dev). (For now I
-    [Trent] am maintaining Manta and SmartOS repo manifests in triton-dev.git.
-    Eventually, IMO, they should live in manta.git and smartos-live.git.)
+    [triton.git](https://github.com/joyent/triton),
+    [manta.git](https://github.com/joyent/manta),
+    [smartos-live.git](https://github.com/joyent/smartos-live),
+    and [triton-dev.git](https://github.com/joyent/triton-dev).
 
     If you want repositories to be checked out to directories with a given
     suffix (e.g. <repo_name>.git) then set:
