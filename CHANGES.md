@@ -4,6 +4,11 @@
 
 (nothing yet)
 
+## 2.1.1
+
+- Move smartos and manta repos.json files to 'tools/jr-manifest.json' in
+  smartos-live.git and manta.git instead of hosting here.
+
 ## 2.1.0
 
 - Respect `$JR_REPO_PATH_SUFFIX` to allow users to set a common suffix for all
