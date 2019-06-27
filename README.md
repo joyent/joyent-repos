@@ -20,26 +20,24 @@ and many automation use cases.
 
 ## Overview
 
-Let's add a "jr-manifest.json" according to the spec defined below to the
-"master" repo of each product:
+There is a "jr-manifest.json" file (following the spec defined below) in
+the "master" repo of each product:
 
-- in "triton.git" to define the public Triton repos -> TRITON-310
-- perhaps in "triton-dev.git" (private) to define the private Triton repos, if
-  needed
-- in "manta.git" to define the public Manta repos
-- in "smartos-live.git" to define the SmartOS/platform public repos
+| Joyent Product         | JR manifest |
+| ---------------------- | ----------- |
+| Triton                 | [triton.git tools/jr-manifest.json](https://github.com/joyent/triton/blob/master/tools/jr-manifest.json) |
+| Manta                  | [manta.git tools/jr-manifest.json](https://github.com/joyent/manta/blob/master/tools/jr-manifest.json) |
+| SmartOS                | [smartos-live.git tools/jr-manifest.json](https://github.com/joyent/smartos-live/blob/master/tools/jr-manifest.json) |
+| Triton (private repos) | [triton-dev.git ./jr-manifest.json](https://github.com/joyent/triton-dev/blob/master/jr-manifest.json) |
 
 Then automation can use those as required. The provided `jr` tool can work
 with the `jr-manifest.json` files in local clones of these repos.
 
 
-### Registered repos.json users
+### Registered users
 
-**Warning: While the spec is versioned, the spec's stability is emphatical
-"experimental" right now. We will freely break compat for a while until we are
-comfortable. Any automation or tool using any of the proposed repos.json files
-above should "register" in the "Registered repos.json users" section below so
-we can attempt to break you less.**
+Having a *registered* set of tools/processes using `jr` and this spec can
+help immensely in maintaining it. Please add to this list if that's you.
 
 Registered users:
 
@@ -50,15 +48,14 @@ Registered users:
 - as of TOOLS-2143, the [sdcrelease](https://mo.joyent.com/engdoc/tree/master/sdcrelease)
   process uses `jr` when running scripts in the [triton.git](https://github.com/joyent/triton)
   `./tools/releng` directory.
-- ...
 
 
-## Repo Manifest Spec
+## JR Manifest Spec
 
 A repo manifest is a JSON file that enumerates a set of repos, some metadata
-on those repos (currently just labels), and some metadata to describe the set
-and to aid in maintaining the file. The file is typically called
-"jr-manifest.json".
+on those repos (currently just labels), fields that define the scope of repos
+for this manifest, and a set of repos that do *not* belong (to aid in
+maintaining the file). The file is typically called "jr-manifest.json".
 Typically the "set" represents the repos relevant for a Joyent product.
 Currently the manifest enumerates repo *names*, assuming they are all on
 GitHub and under the github.com/joyent organization.
