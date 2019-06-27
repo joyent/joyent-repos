@@ -19,8 +19,12 @@
         "es6": true
     },
     "rules": {
-        "curly": ["error", "all"],
-        "max-len": "off",
+        // Disable "callback-return" that was added in
+        // https://github.com/joyent/node-eslint-plugin-joyent/issues/7
+        // See https://github.com/joyent/node-eslint-plugin-joyent/issues/8
+        // request to remove it.
+        "callback-return": "off",
+
         "prettier/prettier": "error"
     }
 }
