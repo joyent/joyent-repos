@@ -148,17 +148,20 @@ A repo manifest file has the following fields:
 - `triton: true` is for repos related to the Triton product
 - `manta: true` is for repos repos to the Manta product
 
-- `release: true` is proposed for marking repos that are the primary
-  for a Triton release component, e.g. the Triton images (like imgapi),
-  agents (like vm-agent), etc. Currently the authority for this is
-  [MG's targets.json.in](https://github.com/joyent/mountain-gorilla/blob/master/targets.json.in).
-  This command lists the relevant repo names:
-  `JOYENT_BUILD=true bash targets.json.in | json -M -a value.repos | json -ga url | sort | uniq | cut -d/ -f2 | cut -d. -f1`
+- `release: true` should be set on a repo from which a Joyent eng release
+  component is built. This decides what the [Joyent engineering release
+  process](https://mo.joyent.com/docs/engdoc/master/sdcrelease/index.html)
+  includes.
 - `mg: <Jenkins job name>` Originally called 'mg' because it referred to
   [mountain-gorilla](https://github.com/joyent/mountain-gorilla) targets,
   this maps the top-level repo to a Jenkins Job name.
   WARNING: The "sdc-headnode" repo is relevant for *multiple* Jenkins jobs. We've
   chosen to use the "headnode-joyent" target here.
+- `buildisprivate: true` should be set on repos with a release build component
+  (currently that is those with an `mg` label) if their built component is
+  *private* (i.e. is uploaded to the `/Joyent_Dev/stor/builds` area). Note that
+  this may differ from whether the repo itself is public (according to the
+  `public` label).
 - `image: <image name>` is used to not the name of the core image created by
   this repo, e.g. `"image": "manta-authcache"` for the mahi repo.
 - `tritonservice: <service name>` is used to note which repo is the
