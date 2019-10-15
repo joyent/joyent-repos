@@ -1,6 +1,6 @@
 {
   "name": "joyent-repos",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "description": "A spec and tool for listing, clone, and working with Joyent (Triton, Manta, and SmartOS) repos",
   "author": "Joyent (joyent.com)",
   "license": "MPL-2.0",
@@ -22,7 +22,7 @@
     "smartos"
   ],
   "dependencies": {
-    "@octokit/rest": "15.8.1",
+    "@octokit/rest": "^16.33.1",
     "assert-plus": "^1.0.0",
     "bunyan": "^1.8.12",
     "cmdln": "^4.3.0",

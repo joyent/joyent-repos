@@ -4,6 +4,10 @@
 
 (nothing yet)
 
+## 2.2.0
+
+- Add `jr github-settings check`.
+
 ## 2.1.1
 
 - Move smartos and manta repos.json files to 'tools/jr-manifest.json' in
