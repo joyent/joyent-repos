@@ -6,6 +6,7 @@
 
 ## 2.2.0
 
+- Add `jr github-settings set-branch-protection`.
 - Add `jr github-settings check`.
 
 ## 2.1.1
