@@ -4,6 +4,11 @@
 
 (nothing yet)
 
+## 2.2.1
+
+- Fix `jr github-settings set-branch-protection` handling on a repo that
+  has *no* current "master" branch protection.
+
 ## 2.2.0
 
 - Add `jr github-settings set-branch-protection`.
