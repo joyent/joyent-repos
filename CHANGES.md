@@ -2,7 +2,7 @@
 
 ## not yet released
 
-(nothing yet)
+- TOOLS-2360 'jr github-settings ...' improve error handling
 
 ## 2.2.1
 
