@@ -141,7 +141,7 @@ A repo manifest file has the following fields:
 ### Blessed labels
 
 - `public: true|false` is used to indicate if the repo is public/private.
-  in active use. Well known values are "active" and "deprecated".
+  in active use.
 
 - `meta: true` is typical for repos that aren't code for the product but
   related, e.g. rfd.git and eng.git.
