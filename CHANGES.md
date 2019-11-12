@@ -2,6 +2,9 @@
 
 ## not yet released
 
+## 2.3.0
+
+- TOOLS-2372 need a tool to toggle branch protection rules for illumos-joyent
 - TOOLS-2360 'jr github-settings ...' improve error handling
 
 ## 2.2.1
