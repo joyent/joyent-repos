@@ -4,8 +4,21 @@
 
 ## 2.3.0
 
-- TOOLS-2372 need a tool to toggle branch protection rules for illumos-joyent
+- `TOOLS-2372 need a tool to toggle branch protection rules for illumos-joyent`
+  This adds `jr github-settings -s <list of statuses> ...` to specify the
+  status checks that must pass on a github repository before a PR can be merged.
+
+  It also adds `jr github-settings -U <list of users>` to relax most branch
+  protection checks, and remove status checks, allowing only the specified
+  users to push to `master`.
+
+  Typically the `-U` option would be used before pushing a direct merge to
+  `master`, followed another `jr github-settings` command with `-s` options
+  to reinstate the branch-protection rules. Few Joyent repositories need this,
+  `illumos-joyent` being the only one so far.
+
 - TOOLS-2360 'jr github-settings ...' improve error handling
+
 
 ## 2.2.1
 
