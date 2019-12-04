@@ -2,6 +2,13 @@
 
 ## not yet released
 
+## 2.3.1
+
+- `MANTA-4799 add branch protections on "mantav1" branches of the relevant manta repos`
+  This updates the `jr gh` `check` and `set-branch-protection` subcommands so
+  that they also operate on the `mantav1` branch of the given repository or
+  repositories, if that branch exists.
+
 ## 2.3.0
 
 - `TOOLS-2372 need a tool to toggle branch protection rules for illumos-joyent`
