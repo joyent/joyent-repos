@@ -2,12 +2,12 @@
 
 ## not yet released
 
-## 2.3.1
+## 2.4.0
 
 - `MANTA-4799 add branch protections on "mantav1" branches of the relevant manta repos`
   This updates the `jr gh` `check` and `set-branch-protection` subcommands so
-  that they also operate on the `mantav1` branch of the given repository or
-  repositories, if that branch exists.
+  that they also operate on the `mantav1` branch protection settings of the
+  given repository or repositories, if that branch exists.
 
 ## 2.3.0
 
