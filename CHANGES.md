@@ -2,6 +2,12 @@
 
 ## not yet released
 
+## 2.5.0
+
+- `TOOLS-2346 set branch protection for Joyent eng repos that were never in gerrit`
+  This makes `jr gh check` automatically skip repositories that have
+  `nobranchprotection` set, indicating that no branch protection is required.
+
 ## 2.4.0
 
 - `MANTA-4799 add branch protections on "mantav1" branches of the relevant manta repos`
