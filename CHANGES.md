@@ -2,6 +2,10 @@
 
 ## not yet released
 
+## 2.5.1
+
+- TOOLS-2434 Fix `jr` breakage in v2.2.0.
+
 ## 2.5.0
 
 - `TOOLS-2346 set branch protection for Joyent eng repos that were never in gerrit`
