@@ -280,16 +280,16 @@ those that should be excluded.
 Here is an example run:
 
 ```
-$ jr update-manifest ~/joy/triton/repos.json
+$ jr update-manifest ~/joy/triton/tools/jr-manifest.json
 Gathering candidate repos from GitHub.
 
 * * *
 The following 2 repo(s) have been archived, or are otherwise no longer
-candidate repos for "/Users/trentm/joy/triton/repos.json":
+candidate repos for "/Users/trentm/joy/triton/tools/jr-manifest.json":
     node-tracker
     sdc-zookeeper
 Remove them from the manifest? [Y/n]
-Updated "/Users/trentm/joy/triton/repos.json".
+Updated "/Users/trentm/joy/triton/tools/jr-manifest.json".
 
 * * *
 There are 3 candidate new repo(s) to work through:
@@ -308,7 +308,7 @@ The process is:
    `jr update-manifest ...`
 
 Hit <Enter> to open your editor, <Ctrl+C> to abort.
-Updated "/Users/trentm/joy/triton/repos.json".
+Updated "/Users/trentm/joy/triton/tools/jr-manifest.json".
 
 * * *
 Next we will handle *exclusions*, by editing the remaining
@@ -321,7 +321,7 @@ No new repos to exclude.
 When a manifest knows about all candidate repos, then a run will look like this:
 
 ```
-$ jr update-manifest ~/joy/triton/repos.json
+$ jr update-manifest ~/joy/triton/tools/jr-manifest.json
 Gathering candidate repos from GitHub.
 No newly archived repos to remove from the manifest.
 No new repos to add to the manifest.
